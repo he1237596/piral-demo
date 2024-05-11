@@ -52,6 +52,8 @@ function CornerstoneElement(props) {
       setViewport(newViewport);
     };
     element.addEventListener("cornerstoneimagerendered", onImageRendered);
+
+
     const fetchToken = async () => {
       try {
         const response = await request(`/user/sign_in`,{
@@ -132,12 +134,24 @@ function CornerstoneElement(props) {
     };
   }, []);
 
-  useLayoutEffect(() => {
+  useEffect(() => {
     const element = elementRef.current;
-/*     const renderNextImage = (imageIds, currentIndex = 0) => {
-      // let currentIndex = 0;
-      // console.log(imageIds[currentIndex])
-      const renderNextFrame = () => {
+    console.log(stack && stack.imageIds && stack.imageIds.length > 0)
+    if (stack && stack.imageIds && stack.imageIds.length > 0) {
+      console.log(stack.imageIds[stack.currentImageIdIndex], 1111111)
+      // renderNextImage(stack.imageIds, stack.currentImageIdIndex);
+      cornerstone.enable(element);
+
+      // 添加监听器，监听滚动事件
+      element.addEventListener('cornerstonetoolsstackscroll', (event) => {
+          const eventData = event.detail;
+          console.log('Mouse wheel scrolled:', eventData);
+          handleStackScroll(event)
+      });
+
+      const StackScrollTool = cornerstoneTools.StackScrollTool;
+      const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool;
+      const renderNextFrame = (imageIds, currentIndex) => {
         console.log(11111, imageIds[currentIndex])
         cornerstone.loadImage(imageIds[currentIndex]).then(image => {
           cornerstone.displayImage(element, image);
@@ -161,43 +175,6 @@ function CornerstoneElement(props) {
           cornerstoneTools.setToolActive("StackScrollMouseWheel", {
             mouseButtonMask: 4
           });
-        });
-        // currentIndex = (currentIndex + 1) % imageIds.length;
-        // requestAnimationFrame(renderNextFrame);
-      };
-      renderNextFrame();
-    }; */
-    console.log(stack && stack.imageIds && stack.imageIds.length > 0)
-    if (stack && stack.imageIds && stack.imageIds.length > 0) {
-      console.log(stack.imageIds[stack.currentImageIdIndex], 1111111)
-      // renderNextImage(stack.imageIds, stack.currentImageIdIndex);
-      cornerstone.enable(element);
-      const StackScrollTool = cornerstoneTools.StackScrollTool;
-      const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool;
-      const renderNextFrame = (imageIds, currentIndex) => {
-        console.log(11111, imageIds[currentIndex])
-        cornerstone.loadImage(imageIds[currentIndex]).then(image => {
-          cornerstone.displayImage(element, image);
-          cornerstoneTools.addStackStateManager(element, ["stack"]);
-          console.log(stack)
-          cornerstoneTools.addToolState(element, "stack", stack);
-          cornerstoneTools.addTool(StackScrollTool, {
-            configuration: {
-              loop: true,
-              allowSkipping: true
-            }
-          });
-          cornerstoneTools.addTool(StackScrollMouseWheelTool, {
-            configuration: {
-              loop: true,
-              allowSkipping: true,
-              invert: false
-            }
-          });
-          // cornerstoneTools.setToolActive("StackScroll", { mouseButtonMask: 1 });
-          // cornerstoneTools.setToolActive("StackScrollMouseWheel", {
-          //   mouseButtonMask: 4
-          // });
           const toolName = "Wwwc";
           cornerstoneTools.addTool(cornerstoneTools.WwwcTool);
           /**
@@ -223,14 +200,31 @@ function CornerstoneElement(props) {
           // cornerstoneTools.removeTool('StackScroll');
           // cornerstoneTools.removeTool('StackScrollMouseWheel');
         });
-
-        // currentIndex = (currentIndex + 1) % imageIds.length;
-        // requestAnimationFrame(renderNextFrame);
       };
+
       renderNextFrame(stack.imageIds, stack.currentImageIdIndex)
     }
-
+    // 在组件销毁时移除监听器
+    return () => {
+      element.removeEventListener("cornerstonestackscroll", handleStackScroll);
+    };
   }, [stack])
+
+  const handleStackScroll = (event) => {
+    const element = elementRef.current;
+    console.log('handleStackScroll', event)
+    // 获取当前堆栈状态
+    const stackToolData = cornerstoneTools.getToolState(element, 'stack');
+    console.log(stackToolData)
+    if (!stackToolData || !stackToolData.data || !stackToolData.data.length) {
+        return;
+    }
+    const stack = stackToolData.data[0];
+
+    // 处理滚动事件，例如更新当前图像索引
+    const newImageIdIndex = stack.currentImageIdIndex;
+    console.log('New Image ID Index:', newImageIdIndex);
+  };
 
   return (
     <div>
