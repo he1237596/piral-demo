@@ -1,6 +1,5 @@
 import axios from "axios";
-const host = 'http://192.168.18.196:16600';
-const prefix = '/api/main'
+import { host, prefix} from "./config";
 async function request(url, options) {
   const defaults = {
     method: "get",

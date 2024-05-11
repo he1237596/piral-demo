@@ -124,8 +124,8 @@ function CornerstoneElement(props) {
       }
     };
 
-    // fetchToken()
-    fetchData();
+    fetchToken()
+    // fetchData();
     return () => {
       cornerstone.disable(element);
       element.removeEventListener("cornerstoneimagerendered", onImageRendered);

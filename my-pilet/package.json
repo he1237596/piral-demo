@@ -28,6 +28,7 @@
     "cornerstone-web-image-loader": "^2.1.1",
     "dicom-parser": "^1.8.21",
     "hammerjs": "^2.0.8",
+    "less-loader": "^12.2.0",
     "query-string": "^9.0.0"
   },
   "scripts": {
