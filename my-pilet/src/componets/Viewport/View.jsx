@@ -171,7 +171,7 @@ function CornerstoneElement(props) {
         <div style={{ bottom: "5px", right: "5px", position: "absolute", color: "white" }}>WW/WC: {viewport.voi.windowWidth} / {viewport.voi.windowCenter}</div>
       </div>
       {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <WindowLevelTool element={elementRef.current} />}
-      {/* {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <MeasureTool element={elementRef.current} />} */}
+      {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <MeasureTool element={elementRef.current} />}
       {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <AngleMeasurementTool element={elementRef.current} />}
     </div>
   );
