@@ -4,11 +4,15 @@ import { Link } from 'react-router-dom';
 
 const Page = React.lazy(() => import('./Page/index'));
 const Page1 = React.lazy(() => import('./Cornerstone/index'));
+const Page2 = React.lazy(() => import('./Page/test'));
+const Demo = React.lazy(() => import('./Page/demo'));
 
 // export function setup(app: PiletApi) {
 export function setup(app) {
   // app.registerPage('/page', Page);
   app.registerPage('/pvmed', Page1);
+  app.registerPage('/test', Page2);
+  app.registerPage('/demo', Demo);
   app.showNotification('Hello from Piral!', {
     autoClose: 2000,
   });
