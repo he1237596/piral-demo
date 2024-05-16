@@ -3,7 +3,7 @@ import React, { useEffect, useRef, memo, useState } from 'react';
 import * as cornerstoneTools from 'cornerstone-tools';
 const toolName = 'Length';
 
-function MeasurementTool(props) {
+function Index(props) {
   const element = props.element;
   const [active, setActive] = useState(false);
 
@@ -14,7 +14,7 @@ function MeasurementTool(props) {
     if (!cornerstoneTools.getToolForElement(element, toolName)) {
       console.log('MeasurementTool add')
       // Add the Length tool to the enabled element
-      cornerstoneTools.addTool(cornerstoneTools.LengthTool);
+      cornerstoneTools.addTool(cornerstoneTools[`${toolName}Tool`]);
 
       // Set the length tool as the active tool
       // cornerstoneTools.setToolActive(toolName, { mouseButtonMask: 1 }); // 可拖可画
@@ -55,4 +55,4 @@ function MeasurementTool(props) {
   );
 }
 
-export default memo(MeasurementTool);
+export default memo(Index);

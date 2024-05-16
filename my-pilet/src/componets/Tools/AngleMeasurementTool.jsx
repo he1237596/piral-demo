@@ -13,7 +13,7 @@ function AngleMeasurementTool(props) {
     // cornerstone.enable(element);
     if (!cornerstoneTools.getToolForElement(element, toolName)) {
     // Add the Angle tool to the enabled element
-    cornerstoneTools.addTool(cornerstoneTools.AngleTool);
+    cornerstoneTools.addTool(cornerstoneTools[`${toolName}Tool`]);
     console.log('AngleMeasurementTool add')
 
     // Set the angle tool as the active tool

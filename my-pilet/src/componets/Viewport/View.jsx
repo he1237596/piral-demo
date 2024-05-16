@@ -8,7 +8,8 @@ import dicomParser from "dicom-parser";
 import Hammer from "hammerjs";
 import WindowLevelTool from '../Tools/WindowLevelTool';
 import MeasureTool from '../Tools/MeasureTool';
-import AngleMeasurementTool from '../tools/AngleMeasurementTool';
+import AngleMeasurementTool from '../Tools/AngleMeasurementTool';
+import StackScollTool from '../Tools/StackScollTool';
 
 cornerstoneTools.external.cornerstone = cornerstone;
 cornerstoneTools.external.cornerstoneMath = cornerstoneMath;
@@ -58,13 +59,13 @@ function CornerstoneElement(props) {
     }
     if (imageIds && imageIds.length > 0) {
       console.log('enable------------')
-      // const StackScrollTool = cornerstoneTools.StackScrollTool;
-      // const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool;
+      const StackScrollTool = cornerstoneTools.StackScrollTool;
+      const StackScrollMouseWheelTool = cornerstoneTools.StackScrollMouseWheelTool;
       const renderNextFrame = (imageIds, currentIndex) => {
         cornerstone.loadImage(imageIds[currentIndex]).then(image => {
           cornerstone.displayImage(element, image);
-      //     cornerstoneTools.addStackStateManager(element, ["stack"]);
-      //     cornerstoneTools.addToolState(element, "stack", { currentImageIdIndex, imageIds });
+          cornerstoneTools.addStackStateManager(element, ["stack"]);
+          cornerstoneTools.addToolState(element, "stack", { currentImageIdIndex, imageIds });
       //     cornerstoneTools.addTool(StackScrollTool, {
       //       configuration: {
       //         loop: true,
@@ -78,7 +79,7 @@ function CornerstoneElement(props) {
       //         invert: false
       //       }
       //     });
-      // console.log(cornerstoneTools.getToolForElement(element, 'StackScrollMouseWheel'), 4444444444)
+      // // console.log(cornerstoneTools.getToolForElement(element, 'StackScrollMouseWheel'), 4444444444)
 
       //     cornerstoneTools.setToolActive("StackScroll", { mouseButtonMask: 1 });
       //     cornerstoneTools.setToolActive("StackScrollMouseWheel", {
@@ -173,6 +174,7 @@ function CornerstoneElement(props) {
       {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <WindowLevelTool element={elementRef.current} />}
       {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <MeasureTool element={elementRef.current} />}
       {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <AngleMeasurementTool element={elementRef.current} />}
+      {elementRef.current && elementRef.current.hasAttribute('data-enabled') && <StackScollTool currentImageIdIndex={currentImageIdIndex} imageIds={imageIds} element={elementRef.current} />}
     </div>
   );
 }
